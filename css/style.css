@@ -1,0 +1,13 @@
+.text,.span{
+    color:rgb(151, 151, 151);
+}
+.text-count{
+color:rgb(95, 37, 37);
+}
+#first-error-handle{
+    display: none;
+}
+
+#secund-error-handle{
+    display: none;
+}

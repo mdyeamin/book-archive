@@ -1,36 +1,77 @@
-const searchBtn = () => {
-    const searchInput = document.getElementById('search-input')
-    const searchText = searchInput.value
+const searceInputField = document.getElementById('input-field');
+const displayingShowBooks = document.getElementById('displaying-books');
+const loadingSpinner = document.getElementById('loading-spinner');
+loadingSpinner.style.display = 'none';
+const countingOfFoundResult = document.getElementById('found-counting');
+const errorMessage1 = document.getElementById('first-error-handle');
+const errorMessage2 = document.getElementById('secund-error-handle');
 
-    // document.getElementById('search-input') = '';
-    const url = `http://openlibrary.org/search.json?q=${searchText}`
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displayResult(data.docs))
+// searce books
+
+const searceBook = () => {
+    const searceText = searceInputField.value;
+    searceInputField.value = '';
+
+    if (searceText === '') {
+        // error handle 1 
+        errorMessage1.style.display = 'block';
+        // clear display
+        displayingShowBooks.innerText = '';
+        countingOfFoundResult.style.display = 'none';
+        errorMessage2.style.display = 'none';
+
+    }
+    else {
+        // loading spinner
+        loadingSpinner.style.display = 'block';
+        // clear display
+        displayingShowBooks.innerText = '';
+        countingOfFoundResult.style.display = 'none';
+        errorMessage1.style.display = 'none';
+        errorMessage2.style.display = 'none';
+
+        // fetch data
+        fetch(`https://openlibrary.org/search.json?q=${searceText}`)
+            .then(res => res.json())
+            .then(data => showBooks(data))
+    }
+
 }
 
-const displayResult = items => {
-    console.log(items);
-    const showDetails = document.getElementById('show-details')
-    for (const item of items) {
-        // console.log(item.title);
-        const cardPerentDiv = document.createElement('div')
-        cardPerentDiv.classList.add('col')
-        const cardItems = document.createElement('div')
-        cardItems.classList.add('card')
-
-        cardItems.innerHTML = `
-            <img src="..." class="card-img-top" alt="">
-            <div class="card-body">
-                <h5 class="card-title">${item.title}</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.</p>
-            </div>
-
-`
-
-
-        cardPerentDiv.appendChild(cardItems)
-        showDetails.appendChild(cardPerentDiv)
+const showBooks = (books) => {
+    // found result Showing 61 results out of 500
+    countingOfFoundResult.style.display = 'none';
+    countingOfFoundResult.innerHTML = `
+    <h2 class="text-center fw-bold text"> Showing <span class=" text-count">${books.docs.length}</span> results out of <span class=" text-count"> ${books.numFound}</span> </h2> 
+    `
+    // error handle 2
+    if (books.docs.length === 0) {
+        errorMessage2.style.display = 'block';
+    } else if (books.docs.length > 0) {
+        countingOfFoundResult.style.display = 'block';
+        errorMessage2.style.display = 'none';
     }
+
+    // spinner
+    loadingSpinner.style.display = 'none';
+
+    displayingShowBooks.innerText = '';
+    const allBooks = books.docs;
+    allBooks.forEach(book => {
+        const div = document.createElement('div');
+        div.classList.add('col');
+        div.innerHTML = `
+        <div class="card h-100">
+            <img src= "https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="card-img-top w-100 mb-5" style="height: 250px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title"><span class="text">Name :</span> ${book.title ? book.title : 'N/a'}</h5>
+                 <h5><span class="text">Author :</span> ${book.author_name ? book.author_name[0] : 'N/a'}</h5>
+                <h5><span class="text">Publisher :</span> ${book.publisher ? book.publisher[0] : 'N/a'}</h5>
+                <h5><span class="text">First publish  :</span> ${book.first_publish_year ? book.first_publish_year : 'N/a'}</h5>
+            </div>
+        </div>
+        `
+        displayingShowBooks.appendChild(div);
+
+    });
 }
