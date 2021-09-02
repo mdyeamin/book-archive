@@ -7,7 +7,6 @@ const errorMessage1 = document.getElementById('first-error-handle');
 const errorMessage2 = document.getElementById('secund-error-handle');
 
 // searce books
-
 const searceBook = () => {
     const searceText = searceInputField.value;
     searceInputField.value = '';
@@ -35,9 +34,7 @@ const searceBook = () => {
             .then(res => res.json())
             .then(data => showBooks(data))
     }
-
 }
-
 
 const showBooks = (books) => {
     countingOfFoundResult.style.display = 'none';
@@ -72,6 +69,5 @@ const showBooks = (books) => {
         </div>
         `
         displayingShowBooks.appendChild(div);
-
     });
 }
