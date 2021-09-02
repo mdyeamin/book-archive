@@ -38,6 +38,7 @@ const searceBook = () => {
 
 }
 
+
 const showBooks = (books) => {
     // found result Showing 61 results out of 500
     countingOfFoundResult.style.display = 'none';
@@ -52,7 +53,7 @@ const showBooks = (books) => {
         errorMessage2.style.display = 'none';
     }
 
-    // spinner
+    // loading spinner
     loadingSpinner.style.display = 'none';
 
     displayingShowBooks.innerText = '';

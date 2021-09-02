@@ -1,8 +1,11 @@
+body{
+    background: rgb(243, 243, 243);
+}
 .text,.span{
     color:rgb(151, 151, 151);
 }
 .text-count{
-color:rgb(95, 37, 37);
+color:rgb(0, 0, 0);
 }
 #first-error-handle{
     display: none;
