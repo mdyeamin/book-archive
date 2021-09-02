@@ -40,7 +40,6 @@ const searceBook = () => {
 
 
 const showBooks = (books) => {
-    // found result Showing 61 results out of 500
     countingOfFoundResult.style.display = 'none';
     countingOfFoundResult.innerHTML = `
     <h2 class="text-center fw-bold text"> Showing <span class=" text-count">${books.docs.length}</span> results out of <span class=" text-count"> ${books.numFound}</span> </h2> 
